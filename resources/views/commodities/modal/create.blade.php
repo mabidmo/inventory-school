@@ -122,6 +122,15 @@
               </div>
             </div>
           </div>
+
+          {{-- <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label for="image">Upload Image</label>
+                <input type="file" id="fileInput" class="form-control" name="image">
+              </div>
+            </div>
+          </div> --}}
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             <button type="submit" class="btn btn-primary">Tambah Data</button>

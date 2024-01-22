@@ -20,7 +20,8 @@
                     $("#brand").val(data.data.brand)
                     $("#material").val(data.data.material)
                     $("#year_of_purchase").val(data.data.year_of_purchase)
-                    $("#school_operational_assistance_id").html(data.data.school_operational_assistance_id)
+                    $("#school_operational_assistance_id").html(data.data
+                        .school_operational_assistance_id)
                     $("#quantity").val(data.data.quantity)
                     $("#price").val(data.data.price)
                     $("#price_per_item").val(data.data.price_per_item)
@@ -33,12 +34,15 @@
             e.preventDefault();
             let token = $("input[name=_token]").val();
 
+            // var fileInput = $('#fileInput');
+
             $.ajax({
                 type: "POST",
                 url: "commodities/json",
                 data: {
                     _token: token,
-                    school_operational_assistance_id: $("#school_operational_assistance_id_create").val(),
+                    school_operational_assistance_id: $(
+                        "#school_operational_assistance_id_create").val(),
                     commodity_location_id: $("#commodity_location_id_create").val(),
                     item_code: $("#item_code_create").val(),
                     register: $("#register_create").val(),
@@ -52,6 +56,11 @@
                     price_per_item: $("#price_per_item_create").val(),
                     note: $("#note_create").val(),
                 },
+                // contentType: false, // No content type for FormData
+                // processData: false, // No processing for FormData
+                // headers: {
+                //     'X-CSRF-TOKEN': token
+                // },
                 success: function(data) {
                     Swal.fire({
                         title: "Berhasil",
@@ -63,9 +72,11 @@
                             timerInterval = setInterval(() => {
                                 const content = Swal.getContent();
                                 if (content) {
-                                    const b = content.querySelector("b");
+                                    const b = content.querySelector(
+                                    "b");
                                     if (b) {
-                                        b.textContent = Swal.getTimerLeft();
+                                        b.textContent = Swal
+                                            .getTimerLeft();
                                     }
                                 }
                             }, 100);
@@ -105,17 +116,24 @@
                         conditions
                     } = data.data;
 
-                    school_operational_assistances.forEach(function(school_operational_assistance) {
-                        $('#school_operational_assistance_id_edit').append(`<option value="${school_operational_assistance.id}"${school_operational_assistance.id === commodity.school_operational_assistance_id ? ' selected' : ''}>${school_operational_assistance.name}</option>`)
+                    school_operational_assistances.forEach(function(
+                        school_operational_assistance) {
+                        $('#school_operational_assistance_id_edit').append(
+                            `<option value="${school_operational_assistance.id}"${school_operational_assistance.id === commodity.school_operational_assistance_id ? ' selected' : ''}>${school_operational_assistance.name}</option>`
+                            )
                     });
 
                     conditions.forEach(function(condition, index) {
                         i = index + 1
-                        $('#condition_edit').append(`<option value="${i}"${i === commodity.condition ? ' selected' : ''}>${condition}</option>`)
+                        $('#condition_edit').append(
+                            `<option value="${i}"${i === commodity.condition ? ' selected' : ''}>${condition}</option>`
+                            )
                     });
 
                     commodity_locations.forEach(function(commodity_location) {
-                        $('#commodity_location_id_edit').append(`<option value="${commodity_location.id}"${commodity_location.id === commodity.commodity_location_id ? ' selected' : ''}>${commodity_location.name}</option>`)
+                        $('#commodity_location_id_edit').append(
+                            `<option value="${commodity_location.id}"${commodity_location.id === commodity.commodity_location_id ? ' selected' : ''}>${commodity_location.name}</option>`
+                            )
                     });
 
                     $("#item_code_edit").val(commodity.item_code)
@@ -130,7 +148,8 @@
                     $("#note_edit").val(commodity.note)
                 },
                 error: function(data) {
-                    Swal.fire("Gagal!", "Tidak dapat melihat info kategori buku.", "warning");
+                    Swal.fire("Gagal!", "Tidak dapat melihat info kategori buku.",
+                        "warning");
                 }
             });
         });
@@ -149,7 +168,8 @@
                 type: "PUT",
                 data: {
                     _token: token,
-                    school_operational_assistance_id: $("#school_operational_assistance_id_edit").val(),
+                    school_operational_assistance_id: $(
+                        "#school_operational_assistance_id_edit").val(),
                     commodity_location_id: $("#commodity_location_id_edit").val(),
                     item_code: $("#item_code_edit").val(),
                     register: $("#register_edit").val(),
@@ -174,9 +194,11 @@
                             timerInterval = setInterval(() => {
                                 const content = Swal.getContent();
                                 if (content) {
-                                    const b = content.querySelector("b");
+                                    const b = content.querySelector(
+                                    "b");
                                     if (b) {
-                                        b.textContent = Swal.getTimerLeft();
+                                        b.textContent = Swal
+                                            .getTimerLeft();
                                     }
                                 }
                             }, 100);
@@ -223,11 +245,16 @@
                                 onBeforeOpen: () => {
                                     Swal.showLoading();
                                     timerInterval = setInterval(() => {
-                                        const content = Swal.getContent();
+                                        const content = Swal
+                                            .getContent();
                                         if (content) {
-                                            const b = content.querySelector("b");
+                                            const b = content
+                                                .querySelector(
+                                                    "b");
                                             if (b) {
-                                                b.textContent = Swal.getTimerLeft();
+                                                b.textContent =
+                                                    Swal
+                                                    .getTimerLeft();
                                             }
                                         }
                                     }, 100);

@@ -28,6 +28,7 @@ class CreateCommoditiesTable extends Migration
             $table->bigInteger('price');
             $table->bigInteger('price_per_item');
             $table->longText('note')->nullable();
+            // $table->string('image_path')->nullable();
             $table->timestamps();
 
             $table->foreign('school_operational_assistance_id')->references('id')->on('school_operational_assistances')->onDelete('CASCADE');

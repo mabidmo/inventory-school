@@ -7,11 +7,18 @@ use App\CommodityLocation;
 use App\Http\Controllers\Controller;
 use App\SchoolOperationalAssistance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CommodityAjaxController extends Controller
 {
     public function store(Request $request)
     {
+        // $request->validate([
+        //     'name' => 'required',
+        //     'description' => 'required',
+        //     'image' => 'image|mimes:png,jpg|max:2048', // Adjust file types and size limit as needed
+        // ]);
+
         $commodities = new Commodity();
         $commodities->school_operational_assistance_id = $request->school_operational_assistance_id;
         $commodities->commodity_location_id = $request->commodity_location_id;
@@ -26,6 +33,13 @@ class CommodityAjaxController extends Controller
         $commodities->price_per_item = $request->price_per_item;
         $commodities->note = $request->note;
         $commodities->save();
+
+        // if ($request->hasFile('file')) {
+        //     $image = $request->file('file');
+        //     $imageName = time() . '_' . $image->getClientOriginalName();
+        //     $imagePath = $image->storeAs('uploads', $imageName, 'public');
+        //     $commodities->image_path = 'storage/' . $imagePath;
+        // }
 
         return response()->json(['status' => 200, 'message' => 'Success', 'data' => $commodities], 200);
     }
@@ -86,6 +100,12 @@ class CommodityAjaxController extends Controller
 
     public function update(Request $request, $id)
     {
+        // $request->validate([
+        //     'name' => 'required',
+        //     'description' => 'required',
+        //     'image' => 'image|mimes:png,jpg|max:2048', // Adjust file types and size limit as needed
+        // ]);
+
         $commodities = Commodity::findOrFail($id);
 
         $commodities->school_operational_assistance_id = $request->school_operational_assistance_id;
@@ -101,6 +121,19 @@ class CommodityAjaxController extends Controller
         $commodities->price_per_item = $request->price_per_item;
         $commodities->note = $request->note;
         $commodities->save();
+
+        // Handle image upload
+        // if ($request->hasFile('file')) {
+        //     $image = $request->file('file');
+        //     $imageName = time() . '_' . $image->getClientOriginalName();
+        //     $imagePath = $image->storeAs('uploads', $imageName, 'public');
+        //     $commodities->image_path = 'storage/' . $imagePath;
+        // }
+
+        // if ($request->hasFile('image')) {
+        //     $imagePath = $request->file('image')->store('uploads', 'public');
+        //     $commodities->image_path = $imagePath;
+        // }
 
         return response()->json(['status' => 200, 'message' => 'Success'], 200);
     }
