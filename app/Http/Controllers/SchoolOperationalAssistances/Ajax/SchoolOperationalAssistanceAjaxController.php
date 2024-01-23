@@ -94,29 +94,29 @@ class SchoolOperationalAssistanceAjaxController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'name' => 'required',
-        'description' => 'required',
-        'file_edit' => 'file|mimes:pdf,doc,docx|max:2048', // Adjust file types and size limit as needed
-    ]);
+    {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'file_edit' => 'file|mimes:pdf,doc,docx|max:2048', // Adjust file types and size limit as needed
+        ]);
 
-    $school_operational_assistance = SchoolOperationalAssistance::findOrFail($id);
-    $school_operational_assistance->name = $request->name;
-    $school_operational_assistance->description = $request->description;
+        $school_operational_assistance = SchoolOperationalAssistance::findOrFail($id);
+        $school_operational_assistance->name = $request->name;
+        $school_operational_assistance->description = $request->description;
 
-    // Handle file upload for editing
-    if ($request->hasFile('file_edit')) {
-        $file = $request->file('file_edit');
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        $filePath = $file->storeAs('uploads', $fileName, 'public');
-        $school_operational_assistance->file_path = 'storage/' . $filePath;
+        // Handle file upload for editing
+        if ($request->hasFile('file_edit')) {
+            $file = $request->file('file_edit');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads', $fileName, 'public');
+            $school_operational_assistance->file_path = 'storage/' . $filePath;
+        }
+
+        $school_operational_assistance->save();
+
+        return response()->json(['status' => 200, 'message' => 'Success', 'data' => $school_operational_assistance], 200);
     }
-
-    $school_operational_assistance->save();
-
-    return response()->json(['status' => 200, 'message' => 'Success', 'data' => $school_operational_assistance], 200);
-}
 
 
     /**
@@ -126,25 +126,25 @@ class SchoolOperationalAssistanceAjaxController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-{
-    $school_operational_assistance = SchoolOperationalAssistance::findOrFail($id);
+    {
+        $school_operational_assistance = SchoolOperationalAssistance::findOrFail($id);
 
-    // Delete the associated file if it exists
-    if ($school_operational_assistance->file_path) {
-        $filePath = str_replace('storage/', '', $school_operational_assistance->file_path);
-        $fullPath = public_path('storage/' . $filePath);
+        // Delete the associated file if it exists
+        if ($school_operational_assistance->file_path) {
+            $filePath = str_replace('storage/', '', $school_operational_assistance->file_path);
+            $fullPath = public_path('storage/' . $filePath);
 
-        // Delete the file from storage
-        if (file_exists($fullPath)) {
-            unlink($fullPath);
+            // Delete the file from storage
+            if (file_exists($fullPath)) {
+                unlink($fullPath);
+            }
+
+            // Delete the file record from the database
+            Storage::delete($filePath);
         }
 
-        // Delete the file record from the database
-        Storage::delete($filePath);
+        $school_operational_assistance->delete();
+
+        return response()->json(['status' => 200, 'message' => 'Success'], 200);
     }
-
-    $school_operational_assistance->delete();
-
-    return response()->json(['status' => 200, 'message' => 'Success'], 200);
-}
 }

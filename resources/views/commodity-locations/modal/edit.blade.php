@@ -26,6 +26,14 @@
               </div>
             </div>
           </div>
+
+          <div class="col-lg-12">
+            <div class="form-group">
+                <label for="file_edit">New Image</label>
+                <input type="file" name="file_edit" class="form-control" id="file_edit">
+            </div>
+        </div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             <button type="submit" data-id="" id="swal-update-button" class="btn btn-primary">Ubah Data</button>

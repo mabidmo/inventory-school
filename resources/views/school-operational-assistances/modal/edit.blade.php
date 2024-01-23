@@ -25,6 +25,7 @@
                                 <textarea name="description" class="form-control" id="description_edit" cols="30" rows="10"></textarea>
                             </div>
                         </div>
+                        
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="file_edit">New File</label>

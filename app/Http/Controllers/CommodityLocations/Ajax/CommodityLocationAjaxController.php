@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CommodityLocations\Ajax;
 use App\CommodityLocation;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CommodityLocationAjaxController extends Controller
 {
@@ -36,9 +37,23 @@ class CommodityLocationAjaxController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'image|mimes:png,jpg,jpeg|max:2048', // Adjust file types and size limit as needed
+        ]);
+
         $commodity_location = new CommodityLocation();
         $commodity_location->name = $request->name;
         $commodity_location->description = $request->description;
+        
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads', $fileName, 'public');
+            $commodity_location->file_path = 'storage/' . $filePath;
+        }
+
         $commodity_location->save();
 
         return response()->json(['status' => 200, 'message' => 'Success', 'data' => $commodity_location], 200);
@@ -79,9 +94,23 @@ class CommodityLocationAjaxController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'image|mimes:png,jpg,jpeg|max:2048', // Adjust file types and size limit as needed
+        ]);
+
         $commodity_location = CommodityLocation::findOrFail($id);
         $commodity_location->name = $request->name;
         $commodity_location->description = $request->description;
+        
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads', $fileName, 'public');
+            $commodity_location->file_path = 'storage/' . $filePath;
+        }
+
         $commodity_location->save();
 
         return response()->json(['status' => 200, 'message' => 'Success', 'data' => $commodity_location], 200);
@@ -95,7 +124,22 @@ class CommodityLocationAjaxController extends Controller
      */
     public function destroy($id)
     {
-        CommodityLocation::findOrFail($id)->delete();
+        $Commodity_Location = CommodityLocation::findOrFail($id)->delete();
+
+        if ($Commodity_Location->file_path) {
+            $filePath = str_replace('storage/', '', $Commodity_Location->file_path);
+            $fullPath = public_path('storage/' . $filePath);
+    
+            // Delete the file from storage
+            if (file_exists($fullPath)) {
+                unlink($fullPath);
+            }
+    
+            // Delete the file record from the database
+            Storage::delete($filePath);
+        }
+
+        $Commodity_Location->delete();
 
         return response()->json(['status' => 200, 'message' => 'Success'], 200);
     }

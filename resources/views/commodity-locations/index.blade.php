@@ -23,6 +23,7 @@
               <th scope="col">Deskripsi</th>
               <th scope="col">Tanggal Ditambahkan</th>
               <th scope="col">Aksi</th>
+              <th scope="col">File</th>
             </tr>
           </thead>
           <tbody>
@@ -43,6 +44,13 @@
                   <i class="fas fa-fw fa-trash-alt"></i>
                 </a>
               </td>
+              <td>
+                @if ($commodity_location->file_path)
+                <a href="{{ asset($commodity_location->file_path) }}" target="_blank">View File</a>
+                @else
+                    No File
+                @endif
+            </td>
             </tr>
             @endforeach
           </tbody>

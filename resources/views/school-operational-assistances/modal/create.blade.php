@@ -15,20 +15,21 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="name">Nama</label>
-                                <input type="text" name="name" class="form-control" id="name_create">
+                                <input type="text" name="name" class="form-control" id="name_create" required>
                             </div>
                         </div>
 
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="description">Deskripsi</label>
-                                <textarea name="description" class="form-control" id="description_create" cols="30" rows="10"></textarea>
+                                <textarea name="description" class="form-control" id="description_create" cols="30" rows="10" required></textarea>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="file">Upload File</label>
-                                <input type="file" name="file" class="form-control-file" id="file_create">
+                                <input type="file" name="file" class="form-control-file" id="file_create" required>
+                                <p>Upload File PDF</p>
                             </div>
                         </div>
                     </div>

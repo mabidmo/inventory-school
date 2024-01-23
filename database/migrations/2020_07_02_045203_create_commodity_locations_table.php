@@ -17,6 +17,7 @@ class CreateCommodityLocationsTable extends Migration
             $table->id();
             $table->string('name');
             $table->longText('description')->nullable();
+            $table->string('file_path')->nullable();
             $table->timestamps();
         });
     }

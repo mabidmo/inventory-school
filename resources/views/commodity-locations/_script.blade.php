@@ -90,14 +90,17 @@
         $("form[name='commodity_location_create']").submit(function(e) {
             e.preventDefault();
             let token = $("input[name=_token]").val();
+            // Create FormData object to handle file upload
+            let formData = new FormData($(this)[0]);
 
             $.ajax({
                 type: "POST",
                 url: "commodity-locations/json",
-                data: {
-                    _token: token,
-                    name: $("#name_create").val(),
-                    description: $("#description_create").val()
+                data: formData,
+                contentType: false, // No content type for FormData
+                processData: false, // No processing for FormData
+                headers: {
+                    'X-CSRF-TOKEN': token
                 },
                 success: function(data) {
                     Swal.fire({
