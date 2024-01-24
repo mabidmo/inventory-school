@@ -55,7 +55,8 @@
                                     </td>
                                     <td>
                                         @if ($school_operational_assistance->file_path)
-                                        <a href="{{ asset($school_operational_assistance->file_path) }}" target="_blank">View File</a>
+                                            <a href="{{ asset('images/' . basename($school_operational_assistance->file_path)) }}"
+                                                target="_blank">View File</a>
                                         @else
                                             No File
                                         @endif

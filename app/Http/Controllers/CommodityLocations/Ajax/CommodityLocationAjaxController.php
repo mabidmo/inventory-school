@@ -50,8 +50,8 @@ class CommodityLocationAjaxController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads', $fileName, 'public');
-            $commodity_location->file_path = 'storage/' . $filePath;
+            $filePath = $file->move(public_path('images'), $fileName);
+            $commodity_location->file_path = 'images/' . $filePath;
         }
 
         $commodity_location->save();
@@ -107,8 +107,8 @@ class CommodityLocationAjaxController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads', $fileName, 'public');
-            $commodity_location->file_path = 'storage/' . $filePath;
+            $filePath = $file->move(public_path('images'), $fileName);
+            $commodity_location->file_path = 'images/' . $filePath;
         }
 
         $commodity_location->save();
@@ -127,8 +127,8 @@ class CommodityLocationAjaxController extends Controller
         $Commodity_Location = CommodityLocation::findOrFail($id)->delete();
 
         if ($Commodity_Location->file_path) {
-            $filePath = str_replace('storage/', '', $Commodity_Location->file_path);
-            $fullPath = public_path('storage/' . $filePath);
+            $filePath = 'images/' . basename($Commodity_Location->file_path);
+            $fullPath = public_path($filePath);
     
             // Delete the file from storage
             if (file_exists($fullPath)) {

@@ -51,8 +51,8 @@ class SchoolOperationalAssistanceAjaxController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads', $fileName, 'public');
-            $school_operational_assistance->file_path = 'storage/' . $filePath;
+            $filePath = $file->move(('images'), $fileName);
+            $school_operational_assistance->file_path = 'images/' . $filePath;
         }
 
         $school_operational_assistance->save();
@@ -106,11 +106,11 @@ class SchoolOperationalAssistanceAjaxController extends Controller
         $school_operational_assistance->description = $request->description;
 
         // Handle file upload for editing
-        if ($request->hasFile('file_edit')) {
-            $file = $request->file('file_edit');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads', $fileName, 'public');
-            $school_operational_assistance->file_path = 'storage/' . $filePath;
+            $filePath = $file->move(('images'), $fileName);
+            $school_operational_assistance->file_path = 'images/' . $filePath;
         }
 
         $school_operational_assistance->save();
@@ -131,17 +131,18 @@ class SchoolOperationalAssistanceAjaxController extends Controller
 
         // Delete the associated file if it exists
         if ($school_operational_assistance->file_path) {
-            $filePath = str_replace('storage/', '', $school_operational_assistance->file_path);
-            $fullPath = public_path('storage/' . $filePath);
-
+            $filePath = 'images/' . basename($school_operational_assistance->file_path);
+            $fullPath = public_path($filePath);
+        
             // Delete the file from storage
             if (file_exists($fullPath)) {
                 unlink($fullPath);
             }
-
+        
             // Delete the file record from the database
             Storage::delete($filePath);
         }
+        
 
         $school_operational_assistance->delete();
 

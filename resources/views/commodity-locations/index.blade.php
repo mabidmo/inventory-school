@@ -46,7 +46,7 @@
               </td>
               <td>
                 @if ($commodity_location->file_path)
-                <a href="{{ asset($commodity_location->file_path) }}" target="_blank">View File</a>
+                <a href="{{ asset('images/' . basename($commodity_location->file_path)) }}" target="_blank">View File</a>
                 @else
                     No File
                 @endif
